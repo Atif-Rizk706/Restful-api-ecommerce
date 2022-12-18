@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Faker\Generator AS Faker;
 class ProductFactory extends Factory
 {
     /**
@@ -11,10 +11,15 @@ class ProductFactory extends Factory
      *
      * @return array
      */
+
     public function definition()
     {
         return [
-            //
+            "name"=> $this->faker->word,
+            "detales"=> $this->faker->paragraph,
+            "price"=> $this->faker->numberBetween(100,1000),
+            "stock"=> $this->faker->randomDigit(),
+            "discount"=>$this->faker->numberBetween(2,30)
         ];
     }
 }
