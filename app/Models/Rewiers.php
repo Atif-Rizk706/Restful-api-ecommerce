@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rewiers extends Model
 {
     use HasFactory;
+    public function product(){
+        return $this->hasMany(Product::class);
+    }
 }
