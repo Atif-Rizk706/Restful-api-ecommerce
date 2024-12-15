@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResouece;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -15,7 +17,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+       return ProductCollection::collection (Product::paginate(  ));
+        //return Product::all();
+       //eturn  ProductResouece::collection(Product::all());
     }
 
     /**
@@ -25,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -47,7 +51,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+         return new ProductResouece($product);
     }
 
     /**
