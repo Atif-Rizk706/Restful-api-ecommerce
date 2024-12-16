@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ProductNotBelongeToUser;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResouece;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
@@ -49,7 +51,7 @@ class ProductController extends Controller
         $product=new Product();
         $product->price=$request->price;
         $product->stock=$request->stock;
-        $product->detales=$request->discription;
+        $product->detail=$request->discription;
         $product->name=$request->name;
         $product->discount=$request->discount;
         $product->save();
@@ -91,7 +93,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-          $request['detales']=$request->discription;
+        $this->productUserCkeck($product);
+        $request['detail']=$request->discription;
           unset($request['description']);
           $product->update($request->all());
         return response(['data'=>new ProductResouece($product)],Response::HTTP_CREATED);
@@ -105,8 +108,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->productUserCkeck($product);
         $product->delete();
         return response(null,Response::HTTP_NO_CONTENT);
 
+    }
+    public function productUserCkeck($product){
+        if(Auth::id() !== $product->user_id){
+            throw new ProductNotBelongeToUser;
+        }
     }
 }
