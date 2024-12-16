@@ -43,15 +43,15 @@ class Handler extends ExceptionHandler
     }
     public function render($request, Throwable $exception)
     {
-        // Handle a 404 Not Found Exception
+        // Handle a 404 Model Not Found Exception
         if ($exception instanceof ModelNotFoundException) {
             return response()->json([
                 'error' => 'model not found!',
                 'message' => $exception->getMessage(),
             ], Response::HTTP_NOT_FOUND);
         }
+         // Handle a 404 General Not Found Exception
 
-        // Handle an Authentication Exception
         if ($exception instanceof NotFoundHttpException) {
             return response()->json([
                 'error' => 'not found !',
