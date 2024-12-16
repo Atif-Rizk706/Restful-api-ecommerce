@@ -7,6 +7,7 @@ use App\Http\Resources\Product\ProductResouece;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
 
@@ -52,7 +53,7 @@ class ProductController extends Controller
         $product->name=$request->name;
         $product->discount=$request->discount;
         $product->save();
-        return response(['data'=>new ProductResouece($product)]);
+        return response(['data'=>new ProductResouece($product)],Response::HTTP_CREATED);
 
 
 
@@ -93,7 +94,7 @@ class ProductController extends Controller
           $request['detales']=$request->discription;
           unset($request['description']);
           $product->update($request->all());
-          return response(['data'=>new ProductResouece($product)]);
+        return response(['data'=>new ProductResouece($product)],Response::HTTP_CREATED);
     }
 
     /**
@@ -105,7 +106,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return response()->json('deleted');
+        return response(null,Response::HTTP_NO_CONTENT);
 
     }
 }
