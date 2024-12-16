@@ -7,6 +7,8 @@ use App\Http\Resources\Product\ProductResouece;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
@@ -15,6 +17,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        $this->middleware('auth:api')->except('show','index');
+    }
     public function index()
     {
        return ProductCollection::collection (Product::paginate(20));
@@ -40,7 +45,18 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product=new Product();
+        $product->price=$request->price;
+        $product->stock=$request->stock;
+        $product->detales=$request->discription;
+        $product->name=$request->name;
+        $product->discount=$request->discount;
+        $product->save();
+        return response(['data'=>new ProductResouece($product)]);
+
+
+
+
     }
 
     /**
