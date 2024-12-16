@@ -88,9 +88,12 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(Request $request, Product $product)
     {
-        //
+          $request['detales']=$request->discription;
+          unset($request['description']);
+          $product->update($request->all());
+          return response(['data'=>new ProductResouece($product)]);
     }
 
     /**
