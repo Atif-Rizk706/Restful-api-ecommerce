@@ -8,11 +8,11 @@ use App\Http\Controllers\ProductController;
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return  dd("iii");//$request->user();
+    return $request->user();
 });
 Route::apiresource('/product',ProductController::class);
 Route::group(['prefix'=>'products'],function (){
-    Route::apiResource('/{product}/reviewers',\App\Http\Controllers\RewiersController::class);
+    Route::apiResource('/{product}/reviews',\App\Http\Controllers\RewiersController::class);
 });
 
 
